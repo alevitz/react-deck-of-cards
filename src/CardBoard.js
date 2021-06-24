@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import Card from "./Card";
 import axios from 'axios';
 import { v4 as uuidv4, v4 } from 'uuid';
+import './CardBoard.css';
 
 function CardBoard() {
   const [cards, setCards] = useState([]);
@@ -68,11 +69,13 @@ function CardBoard() {
 
   const cardResults = cards.map(card => {
     return (
+    <div className="cards">
     <Card 
     image={card.image}
     key={card.id}  
     id={card.id}
     />
+    </div>
     )
   })
 
