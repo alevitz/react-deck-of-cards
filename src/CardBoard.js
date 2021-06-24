@@ -13,9 +13,10 @@ function CardBoard() {
   useEffect(function fetchDataWhenMounted(){
     async function getData(){
       const dataResult = await axios.get(
-        `https://deckofcardsapi.com/api/deck/new/`        
+        `https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`        
         );      
           deckId.current = dataResult.data.deck_id;
+          console.log(dataResult);
         }            
     getData();
   },[]);
@@ -29,6 +30,8 @@ function CardBoard() {
             const card = cardResult.data.cards[cardResult.data.cards.length-1];
             let newCard = {...card, id:v4() }
             setCards(cards => [...cards, newCard]);
+            console.log(card);
+            console.log(cardResult);
           }            
       getCard();
     }    
