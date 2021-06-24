@@ -7,6 +7,8 @@ import { v4 as uuidv4, v4 } from 'uuid';
 function CardBoard() {
   const [cards, setCards] = useState([]);
   const [drawn, setDrawn] = useState(0);
+  const [shuffled, setShuffled] = useState(0);
+  const [displayShuffleBtn, setDisplayShuffleBtn] = useState(true);
 
   const deckId = useRef('new');
 
@@ -41,8 +43,27 @@ function CardBoard() {
     }    
   },[drawn]);
 
+  useEffect(function shuffleExistingDeck(){
+    if(deckId.current !== 'new'){
+    async function shuffle(){
+      setCards([]);
+      setDisplayShuffleBtn(false);
+      const shuffledDeck = await axios.get(
+        `https://deckofcardsapi.com/api/deck/${deckId.current}/shuffle/?deck_count=1`        
+        );
+        console.log(shuffledDeck);
+        setDisplayShuffleBtn(true);
+    }
+    shuffle()
+  } 
+  },[shuffled]);
+
   const drawCard = () => {
     setDrawn(cards => cards + 1);
+  }
+
+  const shuffleCards = () => {
+    setShuffled(shuffled => shuffled + 1);
   }
 
   const cardResults = cards.map(card => {
@@ -57,7 +78,10 @@ function CardBoard() {
 
 return (
     <div >
-    <button onClick={drawCard}>Draw Card!</button>  
+    <button onClick={drawCard}>Draw Card!</button>
+    {displayShuffleBtn ? 
+    <button onClick={shuffleCards}>Shuffle Deck</button>
+    : null}   
     {cardResults}
     </div>    
   );
