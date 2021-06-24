@@ -27,11 +27,15 @@ function CardBoard() {
         const cardResult = await axios.get(
           `https://deckofcardsapi.com/api/deck/${deckId.current}/draw/?count=1`
           );      
-            const card = cardResult.data.cards[cardResult.data.cards.length-1];
-            let newCard = {...card, id:v4() }
-            setCards(cards => [...cards, newCard]);
-            console.log(card);
-            console.log(cardResult);
+            if(cardResult.data.remaining === 0){
+                alert("No cards remaining!!!");
+            } else {
+              const card = cardResult.data.cards[cardResult.data.cards.length-1];
+              let newCard = {...card, id:v4() }
+              setCards(cards => [...cards, newCard]);
+              console.log(card);
+              console.log(cardResult); 
+            }            
           }            
       getCard();
     }    
